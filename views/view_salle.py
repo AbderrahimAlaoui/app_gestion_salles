@@ -124,3 +124,23 @@ class ViewSalle(ctk.CTk):
         self.service_salle.supprimer_salle(code)
         messagebox.showinfo("Succès", "Salle supprimée")
         self.lister_salles()
+    def rechercher_salle(self):
+        code = self.entry_code.get()
+
+        if not code:
+            messagebox.showerror("Erreur", "Le code est obligatoire")
+            return
+
+        salle = self.service_salle.rechercher_salle(code)
+
+        if salle:
+            self.entry_description.delete(0, "end")
+            self.entry_description.insert(0, salle.description)
+
+            self.entry_categorie.delete(0, "end")
+            self.entry_categorie.insert(0, salle.categorie)
+
+            self.entry_capacite.delete(0, "end")
+            self.entry_capacite.insert(0, salle.capacite)
+        else:
+            messagebox.showerror("Erreur", "Salle introuvable")
