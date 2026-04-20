@@ -1,0 +1,78 @@
+import customtkinter as ctk
+from tkinter import ttk, messagebox
+from services.services_salle import ServiceSalle
+from models.salle import Salle
+
+
+class ViewSalle(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+
+        self.title("Gestion des salles")
+        self.geometry("700x600")
+
+        self.service_salle = ServiceSalle()
+
+        # Cadre informations
+        self.cadreInfo = ctk.CTkFrame(self, corner_radius=10)
+        self.cadreInfo.pack(pady=10, padx=10, fill="x")
+
+        self.label_code = ctk.CTkLabel(self.cadreInfo, text="Code salle")
+        self.label_code.grid(row=0, column=0, padx=10, pady=10)
+        self.entry_code = ctk.CTkEntry(self.cadreInfo)
+        self.entry_code.grid(row=0, column=1, padx=10, pady=10)
+
+        self.label_description = ctk.CTkLabel(self.cadreInfo, text="Description")
+        self.label_description.grid(row=1, column=0, padx=10, pady=10)
+        self.entry_description = ctk.CTkEntry(self.cadreInfo)
+        self.entry_description.grid(row=1, column=1, padx=10, pady=10)
+
+        self.label_categorie = ctk.CTkLabel(self.cadreInfo, text="Catégorie")
+        self.label_categorie.grid(row=2, column=0, padx=10, pady=10)
+        self.entry_categorie = ctk.CTkEntry(self.cadreInfo)
+        self.entry_categorie.grid(row=2, column=1, padx=10, pady=10)
+
+        self.label_capacite = ctk.CTkLabel(self.cadreInfo, text="Capacité")
+        self.label_capacite.grid(row=3, column=0, padx=10, pady=10)
+        self.entry_capacite = ctk.CTkEntry(self.cadreInfo)
+        self.entry_capacite.grid(row=3, column=1, padx=10, pady=10)
+
+        # Cadre actions
+        self.cadreAction = ctk.CTkFrame(self, corner_radius=10)
+        self.cadreAction.pack(pady=10, padx=10, fill="x")
+
+        self.btn_ajouter = ctk.CTkButton(self.cadreAction, text="Ajouter", command=self.ajouter_salle)
+        self.btn_ajouter.grid(row=0, column=0, padx=10, pady=10)
+
+        self.btn_modifier = ctk.CTkButton(self.cadreAction, text="Modifier", command=self.modifier_salle)
+        self.btn_modifier.grid(row=0, column=1, padx=10, pady=10)
+
+        self.btn_supprimer = ctk.CTkButton(self.cadreAction, text="Supprimer", command=self.supprimer_salle)
+        self.btn_supprimer.grid(row=0, column=2, padx=10, pady=10)
+
+        self.btn_rechercher = ctk.CTkButton(self.cadreAction, text="Rechercher", command=self.rechercher_salle)
+        self.btn_rechercher.grid(row=0, column=3, padx=10, pady=10)
+
+        # Cadre liste
+        self.cadreList = ctk.CTkFrame(self, corner_radius=10, width=400)
+        self.cadreList.pack(pady=10, padx=10, fill="both", expand=True)
+
+        self.treeList = ttk.Treeview(
+            self.cadreList,
+            columns=("code", "description", "categorie", "capacite"),
+            show="headings"
+        )
+
+        self.treeList.heading("code", text="CODE")
+        self.treeList.heading("description", text="Description")
+        self.treeList.heading("categorie", text="Catégorie")
+        self.treeList.heading("capacite", text="Capacité")
+
+        self.treeList.column("code", width=80)
+        self.treeList.column("description", width=180)
+        self.treeList.column("categorie", width=150)
+        self.treeList.column("capacite", width=100)
+
+        self.treeList.pack(expand=True, fill="both", padx=10, pady=10)
+
+        self.lister_salles()
