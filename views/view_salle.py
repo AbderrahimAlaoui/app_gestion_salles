@@ -95,3 +95,22 @@ class ViewSalle(ctk.CTk):
             self.lister_salles()
         else:
             messagebox.showerror("Erreur", msg)
+    def modifier_salle(self):
+        code = self.entry_code.get()
+        description = self.entry_description.get()
+        categorie = self.entry_categorie.get()
+
+        try:
+            capacite = int(self.entry_capacite.get())
+        except ValueError:
+            messagebox.showerror("Erreur", "La capacité doit être un nombre")
+            return
+
+        salle = Salle(code, description, categorie, capacite)
+        ok, msg = self.service_salle.modifier_salle(salle)
+
+        if ok:
+            messagebox.showinfo("Succès", msg)
+            self.lister_salles()
+        else:
+            messagebox.showerror("Erreur", msg)
