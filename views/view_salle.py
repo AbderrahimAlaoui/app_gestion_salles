@@ -114,3 +114,13 @@ class ViewSalle(ctk.CTk):
             self.lister_salles()
         else:
             messagebox.showerror("Erreur", msg)
+    def supprimer_salle(self):
+        code = self.entry_code.get()
+
+        if not code:
+            messagebox.showerror("Erreur", "Le code est obligatoire")
+            return
+
+        self.service_salle.supprimer_salle(code)
+        messagebox.showinfo("Succès", "Salle supprimée")
+        self.lister_salles()
