@@ -144,3 +144,9 @@ class ViewSalle(ctk.CTk):
             self.entry_capacite.insert(0, salle.capacite)
         else:
             messagebox.showerror("Erreur", "Salle introuvable")
+    def lister_salles(self):
+        self.treeList.delete(*self.treeList.get_children())
+        liste = self.service_salle.recuperer_salles()
+
+        for s in liste:
+            self.treeList.insert("", "end", values=(s.code, s.description, s.categorie, s.capacite))
